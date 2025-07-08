@@ -12,29 +12,36 @@ import java.util.Map;
 @SpringBootTest
 public class GiveClearInstructionsTests extends BaseTestClass {
 
+    /**
+     * LLM에게 JSON 형식으로 데이터를 생성하도록 지시하는 테스트
+     */
     @Test
     void testGetJSON() {
-        String prompt = """
+        var prompt = """
                 Generate a list of 4 made up cars. Provide them in a JSON format
                 with the following attributes: make, model, year, and color. Return the JSON string.
                 """;
 
         System.out.println(chat(prompt));
     }
-    //xml
+    /**
+     * LLM에게 XML 형식으로 데이터를 생성하도록 지시하는 테스트
+     */
     @Test
     void testGetXML() {
-        String prompt = """
+        var prompt = """
                 Generate a list of 4 made up cars. Provide them in a XML format
                 with the following attributes: make, model, year, and color. Return the XML string.
                 """;
 
         System.out.println(chat(prompt));
     }
-    //yaml
+    /**
+     * LLM에게 YAML 형식으로 데이터를 생성하도록 지시하는 테스트
+     */
     @Test
     void testGetYAML() {
-        String prompt = """
+        var prompt = """
                 Generate a list of 4 made up cars. Provide them in a YAML format
                 with the following attributes: make, model, year, and color. Return the YAML string.
                 """;
@@ -42,7 +49,9 @@ public class GiveClearInstructionsTests extends BaseTestClass {
         System.out.println(chat(prompt));
     }
 
-    //ask the model to check if conditions are satisfied
+    /**
+     * LLM에게 주어진 텍스트에서 지시사항을 추출하여 단계별로 재작성하도록 지시하는 프롬프트
+     */
     String directionsPrompt = """
             You will be provided with text delimited by triple quotes.
             If it contains a sequence of instructions,
@@ -57,6 +66,9 @@ public class GiveClearInstructionsTests extends BaseTestClass {
             \\"\\"\\"{text_1}\\"\\"\\"
             """;
 
+    /**
+     * 스테이크 요리 지시사항을 담은 텍스트
+     */
     String cookASteak = """
         Cooking the perfect steak is easy.
         First, remove the steak from the refrigerator and packaging. Let sit at
@@ -67,6 +79,9 @@ public class GiveClearInstructionsTests extends BaseTestClass {
         Finally, let the steak rest for 5 minutes before slicing.
         Enjoy!""";
 
+    /**
+     * 책 설명을 담은 텍스트 (지시사항 없음)
+     */
     String bookDescription = """
             Book Elon Musk
             When Elon Musk was a kid in South Africa, he was regularly beaten by bullies. One day a group pushed him down some concrete steps and kicked him until his face was a swollen ball of flesh. He was in the hospital for a week. But the physical scars were minor compared to the emotional ones inflicted by his father, an engineer, rogue, and charismatic fantasist.
@@ -76,30 +91,42 @@ public class GiveClearInstructionsTests extends BaseTestClass {
             At the beginning of 2022—after a year marked by SpaceX launching thirty-one rockets into orbit, Tesla selling a million cars, and him becoming the richest man on earth—Musk spoke ruefully about his compulsion to stir up dramas. “I need to shift my mindset away from being in crisis mode, which it has been for about fourteen years now, or arguably most of my life,” he said.""";
 
     @Test
+    /**
+     * 스테이크 요리 지시사항을 LLM에게 단계별로 재작성하도록 요청하는 테스트
+     */
     void testCookSteak() {
-        PromptTemplate promptTemplate = new PromptTemplate(directionsPrompt, Map.of("text_1", cookASteak));
+        var promptTemplate = new PromptTemplate(directionsPrompt, Map.of("text_1", cookASteak));
 
         System.out.println(chatModel.call(promptTemplate.create()).getResult().getOutput().getContent());
     }
 
+    /**
+     * 책 설명을 LLM에게 전달하여 지시사항이 없는 경우 "No steps provided."를 반환하는지 확인하는 테스트
+     */
     @Test
     void testBookDescription() {
-        PromptTemplate promptTemplate = new PromptTemplate(directionsPrompt, Map.of("text_1", bookDescription));
+        var promptTemplate = new PromptTemplate(directionsPrompt, Map.of("text_1", bookDescription));
 
         System.out.println(chatModel.call(promptTemplate.create()).getResult().getOutput().getContent());
     }
 
+    /**
+     * 스테이크 요리 지시사항을 LLM에게 Snoop Dog의 어조로 재작성하도록 요청하는 테스트
+     */
     @Test
     void testCookSteakAsSnoopDog() {
-        PromptTemplate promptTemplate = new PromptTemplate(directionsPrompt + "Give the directions using the tone of Snoop Dog",
+        var promptTemplate = new PromptTemplate(directionsPrompt + "Give the directions using the tone of Snoop Dog",
                 Map.of("text_1", cookASteak));
 
         System.out.println(chatModel.call(promptTemplate.create()).getResult().getOutput().getContent());
     }
 
+    /**
+     * 스테이크 요리 지시사항을 LLM에게 JK 롤링의 해리포터 책 스타일로 재작성하도록 요청하는 테스트
+     */
     @Test
     void testCookSteakAsHarryPotter() {
-        PromptTemplate promptTemplate = new PromptTemplate(directionsPrompt + "Give the directions using the tone, tools and imagination of JK Rowling in a Harry Potter book",
+        var promptTemplate = new PromptTemplate(directionsPrompt + "Give the directions using the tone, tools and imagination of JK Rowling in a Harry Potter book",
                 Map.of("text_1", cookASteak));
 
         System.out.println(chatModel.call(promptTemplate.create()).getResult().getOutput().getContent());

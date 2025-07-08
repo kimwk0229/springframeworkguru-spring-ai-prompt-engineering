@@ -5,7 +5,7 @@ import org.springframework.ai.autoconfigure.openai.OpenAiChatProperties;
 import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.chat.prompt.PromptTemplate;
-import org.springframework.ai.openai.OpenAiChatOptions;
+//import org.springframework.ai.openai.OpenAiChatOptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -34,11 +34,11 @@ public class ZeroAndFewShotTests extends BaseTestClass {
             """;
 
     /**
-     * Zero shot - send the model a single prompt with no hints or examples. Leverages the model's training to generate a response.
+     * Zero shot - send the model a single prompt with no hints or examples. Leverages the model's training to generate a response. (제로샷 - 힌트나 예시 없이 단일 프롬프트를 모델에 전송합니다. 응답을 생성하기 위해 모델의 훈련을 활용합니다.)
      */
     @Test
     void zeroShotPromptTest() {
-        // java for loop 3 times
+        // java for loop 3 times (자바 for 루프 3회)
         for (int i = 0; i < 3; i++) {
             // java UUID randomUUID is an API cache buster
             PromptTemplate promptTemplate = new PromptTemplate(prompt,
@@ -54,18 +54,18 @@ public class ZeroAndFewShotTests extends BaseTestClass {
     @Test
     void zeroShotPromptTestWithModelOptions() {
 
-        OpenAiChatOptions openAiChatOptions = new OpenAiChatOptions.Builder(openAiChatProperties.getOptions())
-                .withTemperature(0.1) //default is 0.7
-                .withModel("gpt-4-turbo-preview")
-                .build();
+//        OpenAiChatOptions openAiChatOptions = new OpenAiChatOptions.Builder(openAiChatProperties.getOptions())
+//                .withTemperature(0.1) //default is 0.7
+//                .withModel("solar-pro2-preview")  //gpt-4-turbo-preview //
+//                .build();
 
-        // java for loop 3 times
+        // java for loop 3 times (자바 for 루프 3회)
         for (int i = 0; i < 3; i++) {
             // java UUID randomUUID is an API cache buster
             PromptTemplate promptTemplate = new PromptTemplate(prompt,
                     Map.of("review" , UUID.randomUUID() + "\n" + review));
 
-            Prompt prompt = new Prompt(promptTemplate.createMessage(), openAiChatOptions);
+            Prompt prompt = new Prompt(promptTemplate.createMessage()); //, openAiChatOptions);
 
             ChatResponse response = chatModel.call(prompt);
 
@@ -76,7 +76,7 @@ public class ZeroAndFewShotTests extends BaseTestClass {
 
     /**
      * Few shot - send the model a few examples to help it understand the context of the prompt.
-     *
+     * (Few shot - 프롬프트의 컨텍스트를 이해하는 데 도움이 되도록 몇 가지 예시를 모델에 전송합니다.)
      * Example from 'Language Models are Few-Shot Learners' paper: https://arxiv.org/abs/2005.14165
      */
     String whatpuPrompt = """

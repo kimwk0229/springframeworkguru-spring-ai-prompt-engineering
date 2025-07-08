@@ -17,8 +17,8 @@ public class BaseTestClass {
     ChatModel chatModel;
 
     String chat(String prompt) {
-        PromptTemplate promptTemplate = new PromptTemplate(prompt);
-        Prompt promptToSend = promptTemplate.create();
+        var promptTemplate = new PromptTemplate(prompt);
+        var promptToSend = promptTemplate.create();
 
         return chatModel.call(promptToSend).getResult().getOutput().getContent();
     }

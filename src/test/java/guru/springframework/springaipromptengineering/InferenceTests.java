@@ -58,7 +58,7 @@ public class InferenceTests extends BaseTestClass {
     @DisplayName("Testing Sentiment")
     @Test
     void testingSentiment() {
-        PromptTemplate promptTemplate = new PromptTemplate(sentimentPrompt,
+        var promptTemplate = new PromptTemplate(sentimentPrompt,
                 Map.of("review1", review1,
                         "review2", review2,
                         "review3", review3,
@@ -83,7 +83,7 @@ public class InferenceTests extends BaseTestClass {
     @DisplayName("Testing Emotion")
     @Test
     void testingEmotion() {
-        PromptTemplate promptTemplate = new PromptTemplate(emotionPrompt,
+        var promptTemplate = new PromptTemplate(emotionPrompt,
                 Map.of("review1", review1,
                         "review2", review2,
                         "review3", review3,
@@ -114,7 +114,7 @@ public class InferenceTests extends BaseTestClass {
     @DisplayName("Testing for Anger")
     @Test
     void testingForAnger() {
-        PromptTemplate promptTemplate = new PromptTemplate(angerTestPrompt,
+        var promptTemplate = new PromptTemplate(angerTestPrompt,
                 Map.of("review1", review1,
                         "review2", review2,
                         "review3", review3,
@@ -167,7 +167,7 @@ public class InferenceTests extends BaseTestClass {
     @DisplayName("Inferring for Topics")
     @Test
     void inferTopics() {
-        PromptTemplate promptTemplate = new PromptTemplate(prompt,
+        var promptTemplate = new PromptTemplate(prompt,
                 Map.of("story", story));
 
         System.out.println(chatModel.call(promptTemplate.create()).getResult().getOutput().getContent());

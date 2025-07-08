@@ -20,24 +20,30 @@ public class ChainOfThoughtTests extends BaseTestClass {
       Chain of thought - adding a series of intermediate reasoning steps to the prompt.
       See - https://arxiv.org/abs/2201.11903
      */
+    /**
+     * 전통적인 프롬프트 테스트: 모델이 이전에 27로 잘못 답변했던 문제
+     */
     @Test
     void testTraditionalPrompt() {
-        String prompt = """
+        var prompt = """
                 Q: Roger has 5 tennis balls. He buys 2 more cans of tennis balls, each containing 3 balls. \s
                 How many tennis balls does Roger have now?
                 """;
 
-        PromptTemplate promptTemplate = new PromptTemplate(prompt);
+        var promptTemplate = new PromptTemplate(prompt);
 
-        ChatResponse response = chatModel.call(promptTemplate.create());
+        var response = chatModel.call(promptTemplate.create());
 
         //models previously would answer 27
         System.out.println(response.getResult().getOutput().getContent());
     }
 
+    /**
+     * CoT(Chain-of-Thought) 프롬프트 테스트: 중간 추론 단계를 추가하여 모델의 정확도를 향상
+     */
     @Test
     void testChainOfThroughPrompt() {
-        String chainOfThoughtPrompt = """
+        var chainOfThoughtPrompt = """
                 Q: Roger has 5 tennis balls. He buys 2 more cans of tennis balls, each containing 3 balls. \s
                 How many tennis balls does Roger have now?
                 
@@ -47,23 +53,26 @@ public class ChainOfThoughtTests extends BaseTestClass {
                 apples does the cafeteria have now?
                 """;
 
-        PromptTemplate promptTemplate = new PromptTemplate(chainOfThoughtPrompt);
+        var promptTemplate = new PromptTemplate(chainOfThoughtPrompt);
 
-        ChatResponse response = chatModel.call(promptTemplate.create());
+        var response = chatModel.call(promptTemplate.create());
 
         System.out.println(response.getResult().getOutput().getContent());
     }
 
+    /**
+     * 전통적인 프롬프트 테스트 2: 1단어로 답변하도록 제약 조건을 추가
+     */
     @Test
     void testTraditionalPrompt2() {
-        String prompt = """
+        var prompt = """
                 Q: Roger has 5 tennis balls. He buys 2 more cans of tennis balls, each containing 3 balls. \s
                 How many tennis balls does Roger have now? Answer in 1 word.
                 """;
 
-        PromptTemplate promptTemplate = new PromptTemplate(prompt);
+        var promptTemplate = new PromptTemplate(prompt);
 
-        ChatResponse response = chatModel.call(promptTemplate.create());
+        var response = chatModel.call(promptTemplate.create());
 
         //models previously would answer 27
         System.out.println(response.getResult().getOutput().getContent());
